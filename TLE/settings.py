@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'haystack',
-    'testcase',
+    'rest_framework.authtoken',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,20 @@ HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=8),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=24),
+   
+}
